@@ -85,7 +85,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void emailFieldShouldNotAllowMoreThan255Characters() {
+    void emailFieldShouldNotAllowMoreThan255Characters() {
         loginPage.open();
 
         assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
@@ -100,7 +100,7 @@ public class LoginTest extends BaseTest {
     @Test
     void invalidEmailFormatShouldShowError() {
         loginPage.open();
-        
+
         assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
 
         loginPage.enterEmail("adminpwutuw");
