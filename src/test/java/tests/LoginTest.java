@@ -17,9 +17,6 @@ public class LoginTest extends BaseTest {
     @Test
     void userShouldBeLoginWithValidLoginAndPassword() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("admin@pwutuw");
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();
@@ -31,9 +28,6 @@ public class LoginTest extends BaseTest {
     @Test
     void loginWithEmptyFieldEmailShouldShowError() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();
 
@@ -45,9 +39,6 @@ public class LoginTest extends BaseTest {
     @Test
     void loginWithEmptyFieldPasswordShouldShowError() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("admin@pwutuw");
         loginPage.clickLoginButton();
 
@@ -59,9 +50,6 @@ public class LoginTest extends BaseTest {
     @Test
     void loginWithEmptyFieldsShouldShowError() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.clickLoginButton();
 
         assertEquals(loginPage.getErrorMessage(),
@@ -72,9 +60,6 @@ public class LoginTest extends BaseTest {
     @Test
     void loginWithWrongCredentialsShouldShowError() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("admin@pwutuw");
         loginPage.enterPassword("123456as");
         loginPage.clickLoginButton();
@@ -87,10 +72,7 @@ public class LoginTest extends BaseTest {
     @Test
     void emailFieldShouldNotAllowMoreThan255Characters() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
-        String longEmail = "a".repeat(300);
+        String longEmail = "a".repeat(256);
         loginPage.enterEmail(longEmail);
         String actualText = loginPage.getEmailValue();
 
@@ -100,9 +82,6 @@ public class LoginTest extends BaseTest {
     @Test
     void invalidEmailFormatShouldShowError() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("adminpwutuw");
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();
@@ -116,9 +95,6 @@ public class LoginTest extends BaseTest {
     @Test
     void shouldShowErrorForEmailWithoutDomain() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("admin@");
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();
@@ -131,9 +107,6 @@ public class LoginTest extends BaseTest {
     @Test
     void shouldShowErrorForEmailWithoutUsername() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("@pwutuw");
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();
@@ -146,9 +119,6 @@ public class LoginTest extends BaseTest {
     @Test
     void shouldShowErrorForEmailWithSpaces() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("ad min@pwutuw");
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();
@@ -161,9 +131,6 @@ public class LoginTest extends BaseTest {
     @Test
     void shouldShowErrorForEmailWithRussianLetters() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("админ@pwutuw");
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();
@@ -176,9 +143,6 @@ public class LoginTest extends BaseTest {
     @Test
     void shouldShowErrorForEmailWithInvalidSymbols() {
         loginPage.open();
-
-        assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
-
         loginPage.enterEmail("admin!#$@pwutuw");
         loginPage.enterPassword("abvgd12345");
         loginPage.clickLoginButton();

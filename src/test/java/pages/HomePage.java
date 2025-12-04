@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 public class HomePage extends BasePage {
 
-    private static final By LOGO = By.xpath ("//img[@class='topMenuItem-img-new']");
+    private static final By MENU_SUB_ITEM = By.xpath("//span[@title='Начало работы' and @class='subMenuItem-new active']");
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -13,7 +13,7 @@ public class HomePage extends BasePage {
 
     @Override
     public boolean isPageOpened() {
-        return isExist(LOGO);
+        return isExist(MENU_SUB_ITEM);
     }
 
     @Override
