@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -7,14 +8,35 @@ import static org.testng.Assert.assertTrue;
 
 public class LoginTest extends BaseTest {
 
-    @Test
+    @DataProvider(name = "Negative data")
+    public Object[][] inputForITechTask() {
+        return new Object[][]{
+                {"", "abvgd12345", "Чтобы войти, укажите имя пользователя"},
+                {"admin@pwutuw", "", "Чтобы войти, укажите пароль"},
+                {"", "", "Чтобы войти, укажите имя пользователя"},
+                {"adminpwutuw", "abvgd12345", "Неверный формат имени пользователя. Укажите свою учетную запись, например admin@romashka."},
+        };
+    }
+
+    @Test(dataProvider = "Negative data")
+    public void errorMessages(String email, String password, String errorMessage) {
+        loginPage.open();
+        loginPage.enterEmail(email);
+        loginPage.enterPassword(password);
+        loginPage.clickLoginButton();
+
+        assertEquals(loginPage.getErrorMessage(),
+                errorMessage, "Сообщение об ошибке неверное");
+    }
+
+    @Test(description = "Проверка открытия страницы авторизации")
     void loginPageShouldBeOpened() {
         loginPage.open();
 
         assertTrue(loginPage.isPageOpened(), "Страница логина не открылась");
     }
 
-    @Test
+    @Test(description = "Проверка успешной авторизации с валидными логином и паролем и перехода на главную страницу")
     void userShouldBeLoginWithValidLoginAndPassword() {
         loginPage.open();
         loginPage.enterEmail("admin@pwutuw");
@@ -25,7 +47,7 @@ public class LoginTest extends BaseTest {
         assertTrue(homePage.isPageOpened(), "Страница не открыта");
     }
 
-    @Test
+    @Test(description = "Проверка появления ошибки при попытке входа с пустым полем Email")
     void loginWithEmptyFieldEmailShouldShowError() {
         loginPage.open();
         loginPage.enterPassword("abvgd12345");
@@ -36,7 +58,7 @@ public class LoginTest extends BaseTest {
                 "Сообщение об ошибке неверное");
     }
 
-    @Test
+    @Test(description = "Проверка появления ошибки при попытке входа с пустым полем Пароль")
     void loginWithEmptyFieldPasswordShouldShowError() {
         loginPage.open();
         loginPage.enterEmail("admin@pwutuw");
@@ -47,7 +69,7 @@ public class LoginTest extends BaseTest {
                 "Сообщение об ошибке неверное");
     }
 
-    @Test
+    @Test(description = "Проверка появления ошибки при попытке входа с пустыми полями Email и Пароль")
     void loginWithEmptyFieldsShouldShowError() {
         loginPage.open();
         loginPage.clickLoginButton();
@@ -57,8 +79,8 @@ public class LoginTest extends BaseTest {
                 "Сообщение об ошибке неверное");
     }
 
-    @Test
-    void loginWithWrongCredentialsShouldShowError() {
+    @Test(description = "Проверка появления ошибки при вводе неверного пароля")
+    void loginWithWrongPasswordShouldShowError() {
         loginPage.open();
         loginPage.enterEmail("admin@pwutuw");
         loginPage.enterPassword("123456as");
@@ -69,7 +91,7 @@ public class LoginTest extends BaseTest {
                 "Сообщение об ошибке неверное");
     }
 
-    @Test
+    @Test(description = "Проверка максимальной длины поля Email (255 символов)")
     void emailFieldShouldNotAllowMoreThan255Characters() {
         loginPage.open();
         String longEmail = "a".repeat(256);
@@ -79,7 +101,7 @@ public class LoginTest extends BaseTest {
         assertEquals(actualText.length(), 255);
     }
 
-    @Test
+    @Test(description = "Проверка ошибки валидации при вводе Email в некорректном формате")
     void invalidEmailFormatShouldShowError() {
         loginPage.open();
         loginPage.enterEmail("adminpwutuw");
@@ -92,7 +114,7 @@ public class LoginTest extends BaseTest {
                 "Ошибка валидации email отображается неверно");
     }
 
-    @Test
+    @Test(description = "Проверка ошибки при Email без доменной части")
     void shouldShowErrorForEmailWithoutDomain() {
         loginPage.open();
         loginPage.enterEmail("admin@");
@@ -104,7 +126,7 @@ public class LoginTest extends BaseTest {
                 "Ошибка валидации email отображается неверно");
     }
 
-    @Test
+    @Test(description = "Проверка ошибки при Email без имени пользователя")
     void shouldShowErrorForEmailWithoutUsername() {
         loginPage.open();
         loginPage.enterEmail("@pwutuw");
@@ -116,7 +138,7 @@ public class LoginTest extends BaseTest {
                 "Ошибка валидации email отображается неверно");
     }
 
-    @Test
+    @Test(description = "Проверка ошибки при Email с пробелами")
     void shouldShowErrorForEmailWithSpaces() {
         loginPage.open();
         loginPage.enterEmail("ad min@pwutuw");
@@ -128,7 +150,7 @@ public class LoginTest extends BaseTest {
                 "Ошибка валидации email отображается неверно");
     }
 
-    @Test
+    @Test(description = "Проверка ошибки при Email с русскими буквами")
     void shouldShowErrorForEmailWithRussianLetters() {
         loginPage.open();
         loginPage.enterEmail("админ@pwutuw");
@@ -140,7 +162,7 @@ public class LoginTest extends BaseTest {
                 "Ошибка валидации email отображается неверно");
     }
 
-    @Test
+    @Test(description = "Проверка ошибки при Email с недопустимыми символами")
     void shouldShowErrorForEmailWithInvalidSymbols() {
         loginPage.open();
         loginPage.enterEmail("admin!#$@pwutuw");

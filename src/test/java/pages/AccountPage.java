@@ -6,11 +6,12 @@ import models.Account;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import static java.lang.String.format;
 
 public class AccountPage extends BasePage {
 
-    private static final By LABEL = By.xpath("//span[text() = 'Отчество']");
+    private static final By MIDDLE_NAME_INPUT = By.xpath(
+            "//span[normalize-space()='Отчество' or normalize-space()='Patronymic Name']/following::input[1]"
+    );
     private static final By CONFIRM_NOTIFICATION = By.xpath("//td[@class = 'dialogMiddleCenter']" +
             "//div[@class = 'gwt-Label']");
 
@@ -20,7 +21,7 @@ public class AccountPage extends BasePage {
 
     @Override
     public boolean isPageOpened() {
-        return isExist(LABEL);
+        return isExist(MIDDLE_NAME_INPUT);
     }
 
     @Override
