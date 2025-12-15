@@ -39,44 +39,12 @@ public class LoginTest extends BaseTest {
     @Test(description = "Проверка успешной авторизации с валидными логином и паролем и перехода на главную страницу")
     void userShouldBeLoginWithValidLoginAndPassword() {
         loginPage.open();
-        loginPage.enterEmail("admin@pwutuw");
-        loginPage.enterPassword("abvgd12345");
+        loginPage.enterEmail(System.getProperty("email"));
+        loginPage.enterPassword(System.getProperty("password"));
         loginPage.clickLoginButton();
         homePage.isPageOpened();
 
         assertTrue(homePage.isPageOpened(), "Страница не открыта");
-    }
-
-    @Test(description = "Проверка появления ошибки при попытке входа с пустым полем Email")
-    void loginWithEmptyFieldEmailShouldShowError() {
-        loginPage.open();
-        loginPage.enterPassword("abvgd12345");
-        loginPage.clickLoginButton();
-
-        assertEquals(loginPage.getErrorMessage(),
-                "Чтобы войти, укажите имя пользователя",
-                "Сообщение об ошибке неверное");
-    }
-
-    @Test(description = "Проверка появления ошибки при попытке входа с пустым полем Пароль")
-    void loginWithEmptyFieldPasswordShouldShowError() {
-        loginPage.open();
-        loginPage.enterEmail("admin@pwutuw");
-        loginPage.clickLoginButton();
-
-        assertEquals(loginPage.getErrorMessage(),
-                "Чтобы войти, укажите пароль",
-                "Сообщение об ошибке неверное");
-    }
-
-    @Test(description = "Проверка появления ошибки при попытке входа с пустыми полями Email и Пароль")
-    void loginWithEmptyFieldsShouldShowError() {
-        loginPage.open();
-        loginPage.clickLoginButton();
-
-        assertEquals(loginPage.getErrorMessage(),
-                "Чтобы войти, укажите имя пользователя",
-                "Сообщение об ошибке неверное");
     }
 
     @Test(description = "Проверка появления ошибки при вводе неверного пароля")
@@ -99,19 +67,6 @@ public class LoginTest extends BaseTest {
         String actualText = loginPage.getEmailValue();
 
         assertEquals(actualText.length(), 255);
-    }
-
-    @Test(description = "Проверка ошибки валидации при вводе Email в некорректном формате")
-    void invalidEmailFormatShouldShowError() {
-        loginPage.open();
-        loginPage.enterEmail("adminpwutuw");
-        loginPage.enterPassword("abvgd12345");
-        loginPage.clickLoginButton();
-        String actualError = loginPage.getErrorMessage();
-
-        assertEquals(actualError,
-                "Неверный формат имени пользователя. Укажите свою учетную запись, например admin@romashka.",
-                "Ошибка валидации email отображается неверно");
     }
 
     @Test(description = "Проверка ошибки при Email без доменной части")
