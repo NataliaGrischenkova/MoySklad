@@ -1,8 +1,11 @@
 package tests;
 
+import io.qameta.allure.*;
+import jdk.jfr.Description;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static io.qameta.allure.Allure.step;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -37,6 +40,11 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(description = "Проверка успешной авторизации с валидными логином и паролем и перехода на главную страницу")
+    @Description("Проверка успешной авторизации с валидными логином и паролем и перехода на главную страницу")
+    @Issue("MS-1025")
+    @TmsLink("MSTC-2")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("natalia")
     void userShouldBeLoginWithValidLoginAndPassword() {
         loginPage.open();
         loginPage.enterEmail(System.getProperty("email"));
@@ -44,7 +52,8 @@ public class LoginTest extends BaseTest {
         loginPage.clickLoginButton();
         homePage.isPageOpened();
 
-        assertTrue(homePage.isPageOpened(), "Страница не открыта");
+        step("Ожидаемый результат: Страница HomePage открыта", () ->
+                assertTrue(homePage.isPageOpened(), "Страница не открыта"));
     }
 
     @Test(description = "Проверка появления ошибки при вводе неверного пароля")
