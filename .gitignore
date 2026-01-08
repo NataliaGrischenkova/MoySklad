@@ -11,3 +11,7 @@ target/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+### ALLURE ###
+.allure
+allure-results

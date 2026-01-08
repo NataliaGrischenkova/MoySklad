@@ -4,13 +4,10 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import pages.AccountPage;
-import pages.HomePage;
-import pages.LoginPage;
+import pages.*;
 import utils.TestListener;
 
 import java.time.Duration;
@@ -24,9 +21,11 @@ public class BaseTest {
     LoginPage loginPage;
     HomePage homePage;
     AccountPage accountPage;
+    RegistrationPage registrationPage;
+    RestorePasswordPage restorePasswordPage;
 
     @Parameters({"browser"})
-    @BeforeMethod
+    @BeforeMethod(description = "Настройка WebDriver и Page Object перед тестом")
     @Step("Настройка драйвера(браузер = '{browser}')")
     public void setUP(@Optional("chrome") String browser, ITestContext testContext) {
 
@@ -46,11 +45,15 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         accountPage = new AccountPage(driver);
+        registrationPage = new RegistrationPage(driver);
+        restorePasswordPage = new RestorePasswordPage(driver);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod(alwaysRun = true, description = "Проверка корректного завершения теста и закрытие браузера")
     @Step("Закрыть браузер")
     public void tearDown() {
-        driver.quit();
+        if (driver !=null) {
+            driver.quit();
+        }
     }
 }
