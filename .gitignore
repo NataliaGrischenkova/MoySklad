@@ -13,5 +13,6 @@ out/
 !**/src/test/**/out/
 
 ### ALLURE ###
-.allure
-allure-results
+.allure/
+allure-results/
+allure-report/
